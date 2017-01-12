@@ -8,6 +8,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{A219BCD8-46A0-42EF-877E-BC55ECE4787C}"
 	ProjectSection(SolutionItems) = preProject
 		global.json = global.json
+		src\SearchAndReplace\readme.md = src\SearchAndReplace\readme.md
 	EndProjectSection
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "SearchAndReplace", "src\SearchAndReplace\SearchAndReplace.xproj", "{6841BEE6-4D2F-4D91-B93D-1D9A16E36B7C}"
