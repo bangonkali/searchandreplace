@@ -1,11 +1,15 @@
 {
+  "title": "SearchReplace",
+  "copyright": "(C) Copyright Bangon Kali 2017",
+  "description": "Search and replace.",
   "version": "1.0.0-*",
   "buildOptions": {
-    "emitEntryPoint": true
+    "emitEntryPoint": true,
+    "optimize": true
   },
 
   "dependencies": {
-    "Microsoft.NETCore.App": "1.1.0",
+    "Microsoft.NETCore.App": "1.0.3",
     "System.Text.RegularExpressions": "4.3.0"
   },
 
@@ -13,5 +17,10 @@
     "netcoreapp1.0": {
       "imports": "dnxcore50"
     }
+  },
+
+  "runtimes": {
+    "win10-x86": {},
+    "win10-x64": {}
   }
 }
