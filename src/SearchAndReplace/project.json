@@ -1,7 +1,7 @@
 {
-  "title": "SearchReplace",
-  "copyright": "(C) Copyright Bangon Kali 2017",
-  "description": "Search and replace.",
+  "title": "SearchAndReplace",
+  "copyright": "Copyright © 2017 Bangon Kali",
+  "description": "A very simple search and replace tool that does search and replace on folder names, file names and contents of files within the root folder and doing so recursively.",
   "version": "1.0.0-*",
   "buildOptions": {
     "emitEntryPoint": true,
@@ -21,6 +21,10 @@
 
   "runtimes": {
     "win10-x86": {},
-    "win10-x64": {}
+    "win10-x64": {},
+    "win7-x86": {},
+    "win7-x64": {},
+    "win8-x86": {},
+    "win8-x64": {}
   }
 }
