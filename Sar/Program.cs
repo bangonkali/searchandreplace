@@ -1,13 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Threading.Tasks;
 
-namespace SearchAndReplace
+namespace Sar
 {
-    public class Program
+    class Program
     {
         private static StringReplaceCollection _operations;
         private static string _confPath;
@@ -36,7 +32,7 @@ namespace SearchAndReplace
             {
                 ExitError($"Path {_confPath} doesn't contain valid string replace operations.");
             }
-           
+
             Replace(_rootPath);
 
             WriteLineGood("Done");
@@ -81,7 +77,7 @@ namespace SearchAndReplace
                     }
                 }
             }
-            
+
             // Work with sub-directories.
             string[] directories = Directory.GetDirectories(root);
             for (int i = 0; i < directories.Length; i++)
@@ -89,7 +85,7 @@ namespace SearchAndReplace
                 // Prep
                 string directory = directories[i];
                 DirectoryInfo dirInfo = new DirectoryInfo(directory);
-                
+
                 // String replace contents of the directory.
                 Replace(directory);
 
@@ -97,7 +93,7 @@ namespace SearchAndReplace
                 string dirName = (new DirectoryInfo(directory)).Name;
                 string parentDirPath = dirInfo.Parent.FullName;
                 string newDirName = _operations.GetNewString(dirName);
-                                
+
                 if (!string.Equals(dirName, newDirName, StringComparison.CurrentCulture))
                 {
                     string newDirPath = Path.Combine(parentDirPath, newDirName);
@@ -108,7 +104,8 @@ namespace SearchAndReplace
                         Directory.Move(directory, newDirPath);
                         directories[i] = directory = newDirPath;
                         dirName = newDirName;
-                    } else
+                    }
+                    else
                     {
                         WriteLineBad($"Dir {newDirPath} alraedy exists. Can't move {directory}.");
                     }
