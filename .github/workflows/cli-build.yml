@@ -21,9 +21,3 @@ jobs:
 
       - name: Publish
         run: dotnet publish ./Sar/Sar.csproj -c Release
-
-    # - name: Upload build artifacts
-    #   uses: actions/upload-artifact@v3
-    #   with:
-    #     name: MSIX Package
-    #     path: ${{ env.Wap_Project_Directory }}\AppPackages
