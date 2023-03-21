@@ -8,15 +8,17 @@ namespace Sar
         private static StringReplaceCollection? _operations = null!;
         private static string _confPath = null!;
         private static string _rootPath = null!;
+        private static bool _readonly = true;
 
         public static int Main(string[] args)
         {
-            if (args.Length != 2)
+            if (args.Length is not (2 or 3))
                 ExitError($"Invalid number of arguments.");
 
             _confPath = args[0];
             _rootPath = args[1];
-
+            _readonly = args[2] == "readonly";
+            
             if (!File.Exists(_confPath))
             {
                 ExitError($"Path {_confPath} doesn't exist.");
@@ -32,16 +34,21 @@ namespace Sar
             {
                 ExitError($"Path {_confPath} doesn't contain valid string replace operations.");
             }
+            
+            if (_readonly) Console.WriteLine("Read Only Mode");
 
-            Replace(_rootPath);
+            Replace(_rootPath, _readonly);
 
             WriteLineGood("Done");
             return 0;
         }
 
-        public static void Replace(string root)
+        public static void Replace(string root, bool readOnly)
         {
-            if (_operations == null) { return ; }
+            if (_operations == null)
+            {
+                return;
+            }
 
             // Work with sub-files.
             string[] files = Directory.GetFiles(root);
@@ -57,8 +64,13 @@ namespace Sar
                 string newContents = _operations.GetNewString(currentContents);
                 if (!string.Equals(newContents, currentContents, StringComparison.CurrentCulture))
                 {
-                    File.Delete(file);
-                    File.WriteAllText(file, newContents);
+                    if (!readOnly)
+                    {
+                        File.Delete(file);
+                        File.WriteAllText(file, newContents);
+                    }
+
+                    WriteLineGood($"Replace: '{file}'");
                 }
 
                 // Rename the file if necessary
@@ -69,13 +81,18 @@ namespace Sar
 
                     if (!File.Exists(newFilePath))
                     {
-                        File.Move(file, newFilePath);
-                        fileName = newFileName;
-                        files[i] = file = newFilePath;
+                        if (!readOnly)
+                        {
+                            File.Move(file, newFilePath);
+                            fileName = newFileName;
+                            files[i] = file = newFilePath;
+                        }
+
+                        WriteLineGood($"Rename:  '{file}' => '{newFilePath}'");
                     }
                     else
                     {
-                        WriteLineBad($"File {newFilePath} alraedy exists. Can't move {file}.");
+                        WriteLineBad($"Error:   {newFilePath} alraedy exists. Can't move {file}.");
                     }
                 }
             }
@@ -89,7 +106,7 @@ namespace Sar
                 DirectoryInfo dirInfo = new DirectoryInfo(directory);
 
                 // String replace contents of the directory.
-                Replace(directory);
+                Replace(directory, readOnly);
 
                 // Rename Directories if necessary
                 string dirName = (new DirectoryInfo(directory)).Name;
@@ -103,9 +120,14 @@ namespace Sar
                     // Make sure not to overwrite other dirs in the event of naming conflict.
                     if (!Directory.Exists(newDirPath))
                     {
-                        Directory.Move(directory, newDirPath);
-                        directories[i] = directory = newDirPath;
-                        dirName = newDirName;
+                        if (!readOnly)
+                        {
+                            Directory.Move(directory, newDirPath);
+                            directories[i] = directory = newDirPath;
+                            dirName = newDirName;
+                        }
+
+                        WriteLineGood($"Rename:  '{directory}' => '{newDirPath}'");
                     }
                     else
                     {
