@@ -29,7 +29,7 @@ This application supports any platform that supports `Dotnet 7`. This includes W
 	
 
 	```
-	[0/1: 0 = regex, 1 = simple string]
+	[0/1: 1 = enable regex, 0 = disable regex]
 	[Pattern: regex or simple string to search for]
 	[ReplacementString: string to replace with]
 	... or more ...
