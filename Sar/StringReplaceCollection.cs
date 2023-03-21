@@ -5,7 +5,7 @@ namespace Sar
 {
     public class StringReplaceCollection
     {
-        public List<StringReplaceOperation> Operations { get; set; }
+        public List<StringReplaceOperation> Operations { get; set; } = new List<StringReplaceOperation> ();
 
         public void StringReplaceOperation()
         {
@@ -23,12 +23,12 @@ namespace Sar
             return buffer;
         }
 
-        public static StringReplaceCollection GetCollectionFromFile(string path)
+        public static StringReplaceCollection? GetCollectionFromFile(string path)
         {
             if (!File.Exists(path))
                 return null;
 
-            string line;
+            string? line;
             StringReplaceCollection c = new StringReplaceCollection();
             c.Operations = new List<StringReplaceOperation>();
 

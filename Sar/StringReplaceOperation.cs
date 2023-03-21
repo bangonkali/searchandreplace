@@ -4,9 +4,9 @@ namespace Sar
 {
     public class StringReplaceOperation
     {
-        public string Pattern { get; set; }
+        public string Pattern { get; set; } = null!;
 
-        public string New { get; set; }
+        public string New { get; set; } = null!;
 
         public bool RegexEnabled { get; set; }
 

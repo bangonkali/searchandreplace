@@ -5,9 +5,9 @@ namespace Sar
 {
     class Program
     {
-        private static StringReplaceCollection _operations;
-        private static string _confPath;
-        private static string _rootPath;
+        private static StringReplaceCollection? _operations = null!;
+        private static string _confPath = null!;
+        private static string _rootPath = null!;
 
         public static int Main(string[] args)
         {
@@ -41,6 +41,8 @@ namespace Sar
 
         public static void Replace(string root)
         {
+            if (_operations == null) { return ; }
+
             // Work with sub-files.
             string[] files = Directory.GetFiles(root);
             for (int i = 0; i < files.Length; i++)
@@ -48,7 +50,7 @@ namespace Sar
                 // Prep
                 string file = files[i];
                 string fileName = Path.GetFileName(file);
-                string dirPath = Path.GetDirectoryName(file);
+                string dirPath = Path.GetDirectoryName(file)!;
 
                 // String replace contents of the file.
                 string currentContents = File.ReadAllText(file);
@@ -91,7 +93,7 @@ namespace Sar
 
                 // Rename Directories if necessary
                 string dirName = (new DirectoryInfo(directory)).Name;
-                string parentDirPath = dirInfo.Parent.FullName;
+                string parentDirPath = dirInfo.Parent!.FullName;
                 string newDirName = _operations.GetNewString(dirName);
 
                 if (!string.Equals(dirName, newDirName, StringComparison.CurrentCulture))
