@@ -17,7 +17,12 @@ namespace Sar
 
             _confPath = args[0];
             _rootPath = args[1];
-            _readonly = args[2] == "readonly";
+            _readonly = args.Length == 3 && args[2].Equals("readonly", StringComparison.OrdinalIgnoreCase);
+
+            if (args.Length == 3 && !_readonly)
+            {
+                ExitError("Invalid optional argument. Only 'readonly' is supported.");
+            }
             
             if (!File.Exists(_confPath))
             {
